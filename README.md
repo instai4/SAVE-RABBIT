@@ -1,6 +1,6 @@
 # SAVE RABBIT 🐇🥕
 
-Alternatively, you can play the live version [here](#) *(insert your deployment link)*.
+Alternatively, you can play the live version [here](https://instai4.github.io/SAVE-RABBIT/) *(insert your deployment link)*.
 
 
 A 3D endless runner where you play as a rabbit running on a spherical world. Jump to collect carrots and avoid hedgehogs while a hungry monster chases you from behind.
