@@ -1,260 +1,258 @@
 
-@import url('https://fonts.googleapis.com/css?family=Voltaire');
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            overflow: hidden;
+            font-family: 'Voltaire', sans-serif;
+            touch-action: manipulation; /* prevent double-tap zoom */
+        }
+        #world {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #7FFFD4;
+            overflow: hidden;
+        }
 
+        /* -------------------- GAME OVERLAY -------------------- */
+        #gameoverInstructions {
+            position: absolute;
+            font-family: 'Pacifico', cursive;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: clamp(3rem, 15vw, 100px);
+            text-align: center;
+            color: #f80850;
+            opacity: 0;
+            left: 50%;
+            top: 50%;
+            width: 100%;
+            transform: translate(-50%, -100%);
+            user-select: none;
+            transition: all 500ms ease-in-out;
+            pointer-events: none;
+            z-index: 5;
+            line-height: 1.2;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        #gameoverInstructions.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
 
-#world{
-  position: absolute;
-  width:100%;
-  height: 100%;
-  background-color:#7FFFD4;
+        /* distance display */
+        #dist {
+            position: absolute;
+            left: 50%;
+            top: max(15px, env(safe-area-inset-top));
+            transform: translate(-50%, 0%);
+            user-select: none;
+            text-align: center;
+            white-space: nowrap;
+            background: rgba(255,255,240,0.4);
+            backdrop-filter: blur(4px);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,200,0.6);
+            z-index: 10;
+        }
+        .label {
+            font-family: 'Open Sans', sans-serif;
+            text-transform: uppercase;
+            color: #FF4500;
+            font-size: clamp(14px, 4vw, 23px);
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+        #distValue {
+            color: #FF6347;
+            font-size: clamp(24px, 8vw, 40px);
+            font-family: 'Voltaire', sans-serif;
+            line-height: 1;
+        }
 
-  overflow: hidden;
-}
+        /* bottom instructions */
+        #instructions {
+            position: absolute;
+            width: 100%;
+            bottom: max(15px, env(safe-area-inset-bottom));
+            margin: 0 auto;
+            font-family: 'Roboto', sans-serif;
+            color: hsl(315, 97%, 50%);
+            font-size: clamp(14px, 4vw, 18px);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            user-select: none;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(4px);
+            padding: 8px 12px;
+            width: fit-content;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,200,0.6);
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .lightInstructions {
+            color: #211ed4;
+            font-weight: bold;
+        }
+        /* hide lightInstructions on very small screens if needed */
+        @media (max-width: 480px) {
+            .lightInstructions {
+                display: none;
+            }
+        }
 
+        /* -------------------- CONTROL BUTTONS (right side) -------------------- */
+        #controls {
+            position: fixed;
+            top: 50%;
+            right: max(10px, env(safe-area-inset-right));
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 20;
+        }
+        #controls button {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-family: 'Voltaire', sans-serif;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30,30,30,0.8);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        #controls button i {
+            font-size: 28px;
+        }
+        #controls button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        /* individual colors via background */
+        #resumeButton { background: #2e7d5e; }
+        #pauseButton { background: #c94b4b; }
+        #replayButton { background: #b44b39; }
 
-#gameoverInstructions{
-  position:absolute;
-  font-family:'Pacifico', cursive;
-  font-weight:bold;
-  text-transform: uppercase;
-  font-size:100px;
-  text-align:center;
-  color:#f80850;
-  opacity:0;
-  left:50%;
-  top:50%;
-  width:100%;
-  transform : translate(-50%,-100%);
-  user-select: none;
-  transition: all 500ms ease-in-out;
-  
-  &.show{
-    opacity:1;
-    transform : translate(-50%,-50%);
-    transition: all 500ms ease-in-out;
-  };
-}
-.button {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-}
+        /* smaller buttons on very narrow screens */
+        @media (max-width: 480px) {
+            #controls button {
+                width: 55px;
+                height: 55px;
+                font-size: 18px;
+            }
+            #controls button i {
+                font-size: 24px;
+            }
+        }
 
-.green {
-    background-color: green;
-    color: white;
-}
+        /* -------------------- START SCREEN (mobile friendly) -------------------- */
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Voltaire', sans-serif;
+            z-index: 100;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #startScreen h1 {
+            font-size: clamp(3rem, 15vw, 80px);
+            color: #FF6347;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 #b44b39;
+            letter-spacing: 2px;
+        }
+        #startScreen p {
+            font-size: clamp(16px, 5vw, 22px);
+            margin: 8px 0;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+        #startScreen p b {
+            color: #FFA07A;
+        }
+        #startButton {
+            margin-top: 30px;
+            padding: 14px 40px;
+            font-size: clamp(18px, 6vw, 24px);
+            border: none;
+            border-radius: 60px;
+            background: #dc5f45;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 0 #8b3b2c;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        #startButton:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #8b3b2c;
+        }
 
-.red {
-    background-color: red;
-    color: white;
-}
+        /* -------------------- CREDITS (bottom, always visible) -------------------- */
+        #credits {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Voltaire', sans-serif;
+            font-size: clamp(11px, 3.5vw, 14px);
+            color: #32281c;
+            background: rgba(255, 255, 240, 0.4);
+            backdrop-filter: blur(5px);
+            padding: 6px 10px;
+            border-top: 1px solid rgba(255,200,150,0.5);
+            z-index: 15;
+            letter-spacing: 0.5px;
+        }
+        #credits a {
+            color: #dc5f45;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        #credits a:hover {
+            text-decoration: underline;
+        }
 
-.blue {
-    background-color: blue;
-    color: white;
-}
+        /* home icon hidden (as original) */
+        .home-icon {
+            display: none;
+        }
 
-
-#dist{
-  position:absolute;
-  left:50%;
-  top:50px;
-  transform:translate(-50%,0%);
-  user-select: none; 
-}
-
-.label{
-  position:relative;
-  font-family: 'Open Sans', sans-serif;
-  text-transform:uppercase;
-  color:#FF4500;
-  font-size:23px;
-  letter-spacing:2px;
-  text-align:center;
-  margin-bottom:5px;
-  
-}
-
-
-#distValue{
-  position:relative;
-  text-transform:uppercase;
-  color:#FF6347;
-  font-size:40px;
-  font-family:'Voltaire';
-  text-align:center;
-}
-
-
-
-#credits{
-  position:absolute;
-  width:100%;
-  margin: auto;
-  bottom:0;
-  margin-bottom:20px;
-  font-family:'Arial', sans-serif;
-  color:#544027;
-  font-size:12px;
-  letter-spacing:0.5px;
-  text-transform: uppercase;
-  text-align : center;
-  user-select: none;  
-}
-#credits a {
-  color:#544027;
-  
-}
-
-#credits a:hover {
-  color:#dc5f45;
-}
-
-#instructions{
-  position:absolute;
-  width:100%;
-  bottom:0;
-  margin: auto;
-  margin-bottom:50px;
-  font-family:'Roboto', sans-serif;
-  color:hsl(315, 97%, 50%);
-  font-size:16px;
-  letter-spacing:1px;
-  text-transform: uppercase;
-  text-align : center;
-  user-select: none;
-}
-.lightInstructions {
-  color:#211ed4;
-  font-family:'Roboto', sans-serif;
-}
-#controls {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-#controls button {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-family: 'Voltaire', sans-serif;
-  font-size: 14px;
-  letter-spacing: 1px;
-  color: white;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-  transition: all 0.25s ease;
-}
-
-/* hover effect */
-#controls button:hover {
-  transform: scale(1.12);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
-}
-
-/* Resume button */
-#resumeButton{
-  background: linear-gradient(135deg,#7abf8e,#4caf7b);
-}
-
-/* Pause button */
-#pauseButton{
-  background: linear-gradient(135deg,#ff6347,#ff4500);
-}
-
-/* Replay button */
-#replayButton{
-  background: linear-gradient(135deg,#dc5f45,#b44b39);
-}
-
-#pauseButton:hover {
-  background-color: darkred;
-}
-
-#resumeButton {
-  background-color: blue;
-}
-
-#resumeButton:hover {
-  background-color: darkblue;
-}
-#credits{
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  font-family: 'Voltaire', sans-serif;
-  font-size: 14px;
-  color: #544027;
-  letter-spacing: 1px;
-  background: rgba(255,255,255,0.4);
-  padding: 6px;
-  backdrop-filter: blur(5px);
-}
-
-#credits a{
-  color:#dc5f45;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-#credits a:hover{
-  text-decoration:underline;
-}
-.home-icon{
-display:none;
-}
-#startScreen{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.75);
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-font-family:'Voltaire', sans-serif;
-z-index:10;
-}
-
-#startScreen h1{
-font-size:60px;
-color:#FF6347;
-margin-bottom:20px;
-}
-
-#startScreen p{
-font-size:18px;
-margin:6px;
-}
-
-#startButton{
-margin-top:20px;
-padding:12px 30px;
-font-size:18px;
-border:none;
-border-radius:8px;
-background:#dc5f45;
-color:white;
-cursor:pointer;
-transition:0.3s;
-}
-
-#startButton:hover{
-background:#b44b39;
-}
+        /* ensure canvas fills screen */
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none; /* prevent scrolling while playing */
+        }

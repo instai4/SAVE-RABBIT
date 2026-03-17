@@ -1,52 +1,56 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Rabbit Rush</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Save Rabbit</title>
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Voltaire|Pacifico|Roboto|Open+Sans" rel="stylesheet">
+    <!-- Three.js & dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r80/three.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/264161/OrbitControls.js"></script>
-    <script defer src="script.js"></script>
-
+   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="world" >
-    <div style="text-align: left; margin-left: 40px;
-    margin-top: 30px;    
-    font-size: 30px;    
-    padding: 5px; "><a href="https://instai4.github.io/PORT-FOLIO/"><i style="color:black;" class="fas fa-home home-icon"></i></a></div>
-    <div id="startScreen">
-  <h1>Rabbit Rush</h1>
+    <div id="world">
+        <!-- hidden home icon placeholder (kept from original) -->
+        <div style="text-align: left; margin-left: 10px; margin-top: 10px; position: absolute; z-index: 1; opacity: 0.5;">
+            <a href="https://instai4.github.io/PORT-FOLIO/"><i style="color:black;" class="fas fa-home home-icon"></i></a>
+        </div>
 
-  <p><b>How to Play</b></p>
+        <!-- start screen (blocks interaction until start) -->
+        <div id="startScreen">
+            <h1>Rabbit Rush</h1>
+            <p><b>🐰 How to play</b></p>
+            <p>🥕 Tap anywhere to jump<br>🥕 Collect carrots, avoid hedgehogs<br>🐶 Don't let the dog catch you!</p>
+            <button id="startButton">Start Game</button>
+        </div>
 
-  <p>🐰 Click anywhere to make the rabbit jump</p>
-  <p>🥕 Collect carrots to increase distance from the dog</p>
-  <p>🦔 Avoid hedgehogs or the dog will get closer</p>
-  <p>🐶 Don't let the dog catch you!</p>
+        <!-- game over message -->
+        <div id="gameoverInstructions">Game Over</div>
 
-  <button id="startButton">Start Game</button>
-</div>
-    <div id="gameoverInstructions">
-    Game Over
+        <!-- distance meter -->
+        <div id="dist">
+            <div class="label">distance</div>
+            <div id="distValue">000</div>
+        </div>
+
+
+        <!-- control buttons -->
+        <div id="controls">
+            <button id="resumeButton"><i class="fas fa-play"></i></button>
+            <button id="pauseButton"><i class="fas fa-pause"></i></button>
+            <button id="replayButton"><i class="fas fa-redo"></i></button>
+        </div>
+
+        <!-- credits -->
+        <div id="credits">
+            Rabbit Rush Game • Created by <b>Anurag Singh</b> |
+            <a href="https://instai4.github.io/PORT-FOLIO/" target="_blank">Portfolio</a>
+        </div>
     </div>
-    <div id="dist">
-        <div class="label">distance</div>
-        <div id="distValue">000</div>
-    </div>
-      
-      
 
-    <div id="instructions">Click to jump<span class="lightInstructions"> Grab the carrots / avoid the hedgehogs</span></div>
-    <div id="controls">
-    <button id="resumeButton"><i class="fas fa-play"></i></button>
-    <button id="pauseButton"><i class="fas fa-pause"></i></button>
-    <button id="replayButton"><i class="fas fa-redo"></i></button>
-</div>
-<div id="credits">
-  Rabbit Rush Game • Created by <b>Anurag Singh</b> |
-  <a href="https://instai4.github.io/PORT-FOLIO/" target="_blank">Portfolio</a>
-</div>
-
+    <script src="script.js"></script>
 </body>
 </html>
